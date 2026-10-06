@@ -1,11 +1,21 @@
 <?php
 
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\MetaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\MetaController;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+// Rotas públicas (sem token)
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
 
-Route::middleware('auth:sanctum')->post('/metas', [MetaController::class, 'store']);
+// Rotas protegidas (precisam da "pulseirinha")
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+
+    Route::post('/logout', [AuthController::class, 'logout']);
+
+    Route::apiResource('metas', MetaController::class);
+});
