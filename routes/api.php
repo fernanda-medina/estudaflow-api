@@ -5,6 +5,7 @@ use App\Http\Controllers\MetaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EventoController;
+use App\Http\Controllers\LivroController;
 
 // Rotas públicas (sem token)
 Route::post('/register', [AuthController::class, 'register']);
@@ -19,4 +20,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::apiResource('metas', MetaController::class);
     Route::apiResource('eventos', EventoController::class);
+
+    Route::apiResource('livros', LivroController::class);
+    Route::get('/lista-leitura', [LivroController::class, 'lista']);
+    Route::post('/livros/{livro}/lista', [LivroController::class, 'adicionarNaLista']);
+    Route::delete('/livros/{livro}/lista', [LivroController::class, 'removerDaLista']);
 });
