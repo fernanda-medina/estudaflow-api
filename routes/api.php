@@ -8,6 +8,7 @@ use App\Http\Controllers\EventoController;
 use App\Http\Controllers\LivroController;
 use App\Http\Controllers\DocumentoController;
 use App\Http\Controllers\ArquivoController;
+use App\Http\Controllers\MapaMentalController;
 
 // Rotas públicas (sem token)
 Route::post('/register', [AuthController::class, 'register']);
@@ -31,4 +32,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('documentos', DocumentoController::class);
     Route::get('/arquivos', [ArquivoController::class, 'index']);
     Route::delete('/arquivos/{arquivo}', [ArquivoController::class, 'destroy']);
-});
+    Route::apiResource('mapas-mentais', MapaMentalController::class)
+        ->parameters(['mapas-mentais' => 'mapa']);
+ });
